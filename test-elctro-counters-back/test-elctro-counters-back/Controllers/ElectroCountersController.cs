@@ -35,5 +35,16 @@ namespace test_elctro_counters_back.Controllers
             }
             return Ok(counter);
         }
+
+        [HttpGet("getCounterByNameAndDay")]
+        public async Task<ActionResult<OneDayElectroCounter>> GetCounterByNameAndDay(string name, int year, int month, int day)
+        {
+            var counter = _countersService.GetCounterByNameAndDateAndDayAsync(name, year, month, day);
+            if (counter == null)
+            {
+                return NotFound();
+            }
+            return Ok(counter);
+        }
     }
 }

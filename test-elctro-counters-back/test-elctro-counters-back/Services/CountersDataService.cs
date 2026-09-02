@@ -24,6 +24,14 @@ namespace test_elctro_counters_back.Services
             var counter = electroCounters.FirstOrDefault(c => c.Name == name && c.Year == year && c.Month == month);
             return Task.FromResult(counter);
         }
+        
+        public Task<OneDayElectroCounter> GetCounterByNameAndDateAndDayAsync(string name, int year, int month, int day)
+        {
+            var counter = electroCounters.FirstOrDefault(c => c.Name == name && c.Year == year && c.Month == month);
+            var result = new OneDayElectroCounter(counter.Id, counter.Name, counter.ActiveInput[day],
+                counter.ActiveOutput[day], counter.ReactiveInput[day], counter.ReactiveOutput[day]);
+            return Task.FromResult(result);
+        }
 
         public Task<List<string>> GetAllNamesAsync()
         {

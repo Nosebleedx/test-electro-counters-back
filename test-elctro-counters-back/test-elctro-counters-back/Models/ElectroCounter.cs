@@ -9,10 +9,10 @@ namespace test_elctro_counters_back.Models
         public string Name { get; set; }
         public int Year { get; set; }
         public int Month { get; set; }
-        public List<DailyMeasures> ActiveInput {  get; set; }
-        public List<DailyMeasures> ActiveOutput {  get; set; }
-        public List<DailyMeasures> ReactiveInput {  get; set; }
-        public List<DailyMeasures> ReactiveOutput {  get; set; }
+        public Dictionary<int, DailyMeasures> ActiveInput {  get; set; }
+        public Dictionary<int, DailyMeasures> ActiveOutput {  get; set; }
+        public Dictionary<int, DailyMeasures> ReactiveInput {  get; set; }
+        public Dictionary<int, DailyMeasures> ReactiveOutput {  get; set; }
 
         public ElectroCounter(int _id, string _name, int _year, int _month)
         {
@@ -20,10 +20,10 @@ namespace test_elctro_counters_back.Models
             Name = _name;
             Year = _year;
             Month = _month;
-            ActiveInput = DailyMeasures.GenerateRandomMeasures(_year, _month);
-            ActiveOutput = DailyMeasures.GenerateRandomMeasures(_year, _month);
-            ReactiveInput = DailyMeasures.GenerateRandomMeasures(_year, _month);
-            ReactiveOutput = DailyMeasures.GenerateRandomMeasures(_year, _month);
+            ActiveInput = DailyMeasures.GenerateRandomMeasuresDict(_year, _month);
+            ActiveOutput = DailyMeasures.GenerateRandomMeasuresDict(_year, _month);
+            ReactiveInput = DailyMeasures.GenerateRandomMeasuresDict(_year, _month);
+            ReactiveOutput = DailyMeasures.GenerateRandomMeasuresDict(_year, _month);
         }
     }
 }
