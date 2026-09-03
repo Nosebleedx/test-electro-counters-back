@@ -8,29 +8,40 @@ namespace test_elctro_counters_back
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            const string frontendPolicy = "Frontend";
+
             builder.Services.AddScoped<CountersDataService>();
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            
-            // TODO : возможно поменять бд с списка на словарь
-            // TODO : может поменять модель на каждодневное значение для 4 измерений, а не месячные записи для каждого из измерений
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(frontendPolicy, policy =>
+                {
+                    policy
+                        .WithOrigins(
+                            "http://localhost:4200",
+                            "http://127.0.0.1:4200")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
+
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+            // Для локальной разработки по HTTP оставляем выключенным.
+            // app.UseHttpsRedirection();
+
+            app.UseCors(frontendPolicy);
 
             app.UseAuthorization();
-
-
             app.MapControllers();
 
             app.Run();
